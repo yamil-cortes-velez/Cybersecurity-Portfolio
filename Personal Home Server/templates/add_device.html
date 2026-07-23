@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d0d14; font-family: monospace; color: #fff; }
+  .topbar {
+    width: 100%; height: 48px; background: #13131f;
+    border-bottom: 1px solid #ffffff15;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+  }
+  .topbar a { color: #f59e0b; text-decoration: none; font-size: 13px; }
+  .title { font-size: 15px; font-weight: bold; letter-spacing: 3px; }
+  .content { padding: 20px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; color: #888; font-size: 11px; margin-bottom: 6px; letter-spacing: 1px; }
+  .field input {
+    width: 100%; padding: 10px; background: #13131f;
+    border: 1px solid #ffffff15; border-radius: 8px;
+    color: #fff; font-family: monospace; font-size: 14px;
+  }
+  .save-btn {
+    margin-top: 8px; padding: 12px 32px; background: #f59e0b22;
+    border: 1px solid #f59e0b44; border-radius: 8px;
+    color: #f59e0b; font-family: monospace; font-size: 14px;
+    cursor: pointer; width: 100%;
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="/send">← BACK</a>
+  <div class="title">ADD DEVICE</div>
+  <div style="width:60px"></div>
+</div>
+<div class="content">
+  <form method="POST">
+    <div class="field">
+      <label>DEVICE NAME</label>
+      <input type="text" name="name" placeholder="e.g. Yamil's Phone"/>
+    </div>
+    <div class="field">
+      <label>WIREGUARD IP</label>
+      <input type="text" name="wireguard_ip" placeholder="e.g. 10.0.0.2"/>
+    </div>
+    <div class="field">
+      <label>TELEGRAM ID (optional)</label>
+      <input type="text" name="telegram_id" placeholder="e.g. 123456789"/>
+    </div>
+    <button class="save-btn" type="submit">SAVE DEVICE</button>
+  </form>
+</div>
+</body>
+</html>

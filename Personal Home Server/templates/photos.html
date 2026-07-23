@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d0d14; font-family: monospace; color: #fff; }
+  .topbar {
+    width: 100%; height: 48px; background: #13131f;
+    border-bottom: 1px solid #ffffff15;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+  }
+  .topbar a { color: #a855f7; text-decoration: none; font-size: 13px; }
+  .title { font-size: 15px; font-weight: bold; letter-spacing: 3px; }
+  .content { padding: 20px; }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-top: 16px;
+  }
+  .photo-item {
+    background: #13131f;
+    border: 1px solid #ffffff10;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .photo-item img { width: 100%; height: 120px; object-fit: cover; }
+  .photo-name {
+    padding: 6px 8px; font-size: 10px; color: #888;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .photo-actions {
+    display: flex; gap: 6px; padding: 0 8px 8px;
+  }
+  .btn {
+    flex: 1; padding: 5px; border-radius: 6px;
+    font-family: monospace; font-size: 10px; cursor: pointer;
+    border: 1px solid #a855f744; color: #a855f7; background: #a855f711;
+  }
+  .upload-section {
+    margin-top: 20px; padding: 16px; background: #13131f;
+    border: 1px dashed #ffffff20; border-radius: 8px;
+  }
+  .upload-btn {
+    margin-top: 10px; padding: 8px 20px; background: #a855f722;
+    border: 1px solid #a855f744; border-radius: 6px;
+    color: #a855f7; font-family: monospace; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="/">← BACK</a>
+  <div class="title">PHOTOS</div>
+  <div style="width:60px"></div>
+</div>
+
+<div class="content">
+  <form method="POST" action="/upload_photo" enctype="multipart/form-data">
+    <div class="upload-section">
+      <div style="color:#888; font-size:11px; margin-bottom:8px;">UPLOAD A PHOTO</div>
+      <input type="file" name="file" accept="image/*" style="color:#fff"/>
+      <br>
+      <button class="upload-btn" type="submit">UPLOAD</button>
+    </div>
+  </form>
+
+  <div class="photo-grid">
+    {% for photo in photos %}
+    <div class="photo-item">
+      <img src="/download/{{ photo }}" alt="{{ photo }}">
+      <div class="photo-name">{{ photo }}</div>
+      <div class="photo-actions">
+        <a href="/download/{{ photo }}"><button class="btn" type="button">SAVE</button></a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</body>
+</html>

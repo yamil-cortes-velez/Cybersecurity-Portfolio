@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d0d14; font-family: monospace; color: #fff; }
+  .topbar {
+    width: 100%; height: 48px; background: #13131f;
+    border-bottom: 1px solid #ffffff15;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+  }
+  .topbar a { color: #4a9eff; text-decoration: none; font-size: 13px; }
+  .title { font-size: 15px; font-weight: bold; letter-spacing: 3px; }
+  .content { padding: 20px; }
+  .upload-section {
+    padding: 16px; background: #13131f;
+    border: 1px dashed #ffffff20; border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .upload-section label { color: #888; font-size: 11px; display: block; margin-bottom: 8px; }
+  .upload-section input { color: #fff; font-family: monospace; }
+  .upload-btn {
+    margin-top: 10px; padding: 8px 20px; background: #4a9eff22;
+    border: 1px solid #4a9eff44; border-radius: 6px;
+    color: #4a9eff; font-family: monospace; cursor: pointer;
+  }
+  .file-list { list-style: none; }
+  .file-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; background: #13131f;
+    border: 1px solid #ffffff10; border-radius: 8px; margin-bottom: 8px;
+  }
+  .file-item input[type="checkbox"] { margin-right: 12px; width: 18px; height: 18px; }
+  .file-name { flex: 1; font-size: 13px; }
+  .file-actions { display: flex; gap: 8px; }
+  .btn-download {
+    padding: 6px 14px; border-radius: 6px;
+    font-family: monospace; font-size: 11px; cursor: pointer;
+    border: 1px solid #4a9eff44; color: #4a9eff; background: #4a9eff11;
+    text-decoration: none;
+  }
+  .btn-delete {
+    padding: 6px 14px; border-radius: 6px;
+    font-family: monospace; font-size: 11px; cursor: pointer;
+    border: 1px solid #ff444444; color: #ff4444; background: #ff444411;
+    text-decoration: none;
+  }
+  .send-selected {
+    margin-top: 12px; padding: 10px 24px; background: #f59e0b22;
+    border: 1px solid #f59e0b44; border-radius: 6px;
+    color: #f59e0b; font-family: monospace; cursor: pointer;
+  }
+  .empty { color: #555; font-size: 13px; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="/">← BACK</a>
+  <div class="title">FILES</div>
+  <div style="width:60px"></div>
+</div>
+
+<div class="content">
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <div class="upload-section">
+      <label>UPLOAD A FILE</label>
+      <input type="file" name="file"/>
+      <br>
+      <button class="upload-btn" type="submit">UPLOAD</button>
+    </div>
+  </form>
+
+  <form method="POST" action="/send_selected">
+    {% if files %}
+    <ul class="file-list">
+      {% for file in files %}
+      <li class="file-item">
+        <input type="checkbox" name="selected_files" value="{{ file }}">
+        <span class="file-name">{{ file }}</span>
+        <div class="file-actions">
+          <a href="/download/{{ file }}" class="btn-download">DOWNLOAD</a>
+          <a href="/delete/{{ file }}" class="btn-delete"
+             onclick="return confirm('Delete {{ file }}?')">DELETE</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    <button class="send-selected" type="submit">SEND SELECTED →</button>
+    {% else %}
+    <div class="empty">No files uploaded yet.</div>
+    {% endif %}
+  </form>
+</div>
+</body>
+</html>

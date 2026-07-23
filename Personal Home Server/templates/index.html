@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d0d14;
+    font-family: monospace;
+    width: 800px; height: 480px;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(#ffffff08 0 1px, transparent 1px 40px),
+                      repeating-linear-gradient(90deg, #ffffff08 0 1px, transparent 1px 40px);
+  }
+  .topbar {
+    width: 100%; height: 48px; background: #13131f;
+    border-bottom: 1px solid #ffffff15;
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  .topbar .title { color: #fff; font-size: 15px; font-weight: bold; letter-spacing: 3px; }
+  .topbar .right { display: flex; align-items: center; gap: 16px; }
+  .storage-wrap { display: flex; flex-direction: column; align-items: flex-end; }
+  .storage-label { color: #888; font-size: 10px; letter-spacing: 1px; margin-bottom: 3px; }
+  .storage-bar-bg { width: 200px; height: 8px; background: #1e1e2e; border-radius: 4px; }
+  .storage-bar-fill { width: 60%; height: 100%; background: #4a9eff; border-radius: 4px; }
+  .storage-text { color: #4a9eff; font-size: 10px; margin-top: 2px; }
+  .lock-btn {
+    width: 36px; height: 36px; background: #1e1e2e;
+    border: 1px solid #ffffff15; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; cursor: pointer; text-decoration: none;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px; padding: 12px;
+    height: calc(480px - 48px - 32px);
+  }
+  .card {
+    background: #13131f;
+    border-radius: 12px;
+    border: 1px solid;
+    padding: 20px;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: 12px 12px 0 0;
+  }
+  .card.locked { border-color: #ffffff10; filter: grayscale(1); opacity: 0.45; pointer-events: none; }
+  .card.locked::before { background: #333; }
+  .card.files   { border-color: #4a9eff33; } .card.files::before   { background: #4a9eff; }
+  .card.photos  { border-color: #a855f733; } .card.photos::before  { background: #a855f7; }
+  .card.videos  { border-color: #22d3ee33; } .card.videos::before  { background: #22d3ee; }
+  .card.send    { border-color: #f59e0b33; } .card.send::before    { background: #f59e0b; }
+  .card-top { display: flex; align-items: center; gap: 14px; }
+  .card-icon { font-size: 32px; }
+  .card-info .card-title { color: #fff; font-size: 18px; font-weight: bold; }
+  .card-info .card-sub   { font-size: 11px; color: #555; margin-top: 4px; }
+  .card-lock-badge {
+    position: absolute; top: 12px; right: 12px;
+    font-size: 16px; opacity: 0.5;
+  }
+  .card-btn {
+    align-self: flex-end;
+    padding: 6px 16px; border-radius: 6px;
+    border: 1px solid; font-family: monospace;
+    font-size: 11px; cursor: pointer; background: transparent;
+    text-decoration: none; display: inline-block;
+  }
+  .card.files  .card-btn { color: #4a9eff; border-color: #4a9eff44; background: #4a9eff11; }
+  .card.photos .card-btn { color: #a855f7; border-color: #a855f744; background: #a855f711; }
+  .card.videos .card-btn { color: #22d3ee; border-color: #22d3ee44; background: #22d3ee11; }
+  .card.send   .card-btn { color: #f59e0b; border-color: #f59e0b44; background: #f59e0b11; }
+  .bottombar {
+    position: absolute; bottom: 0; width: 100%;
+    height: 32px; background: #13131f;
+    border-top: 1px solid #ffffff10;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bottombar span { color: #333; font-size: 10px; letter-spacing: 2px; }
+  .pin-overlay {
+    display: none;
+    position: absolute;
+    bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    background: #13131f;
+    border: 1px solid #ffffff15;
+    border-radius: 16px 16px 0 0;
+    padding: 24px;
+    z-index: 10;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 320px;
+    box-shadow: 0 -8px 40px #00000088;
+  }
+  .pin-overlay.active { display: flex; }
+  .pin-title { color: #ffffff88; font-size: 12px; letter-spacing: 3px; }
+  .pin-display {
+    width: 200px; height: 44px; background: #0d0d14;
+    border: 1px solid #ffffff20; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: #4a9eff; font-size: 24px; letter-spacing: 10px;
+  }
+  .numpad { display: grid; grid-template-columns: repeat(3, 72px); gap: 8px; }
+  .numpad button {
+    height: 48px; background: #0d0d14;
+    border: 1px solid #ffffff15; border-radius: 8px;
+    color: #fff; font-family: monospace; font-size: 20px; cursor: pointer;
+  }
+  .numpad button:active { background: #4a9eff22; }
+  .numpad .clear { color: #ff4444; }
+  .numpad .enter { color: #4a9eff; }
+  .pin-error { color: #ff4444; font-size: 11px; height: 14px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="title">CORTES SERVER</div>
+  <div class="right">
+    <div class="storage-wrap">
+      <div class="storage-label">STORAGE</div>
+      <div class="storage-bar-bg"><div class="storage-bar-fill"></div></div>
+      <div class="storage-text">847 GB / 2 TB</div>
+    </div>
+    <a href="/lock" class="lock-btn" id="lockBtn">🔒</a>
+  </div>
+</div>
+
+<div class="grid" id="mainGrid">
+  <div class="card files {% if not unlocked %}locked{% endif %}" id="cardFiles">
+    <div class="card-lock-badge" id="badgeFiles">{% if unlocked %}🔓{% else %}🔒{% endif %}</div>
+    <div class="card-top">
+      <div class="card-icon">📁</div>
+      <div class="card-info">
+        <div class="card-title">FILES</div>
+        <div class="card-sub">Browse · Upload · Send</div>
+      </div>
+    </div>
+    <a href="/files" class="card-btn">OPEN →</a>
+  </div>
+
+  <div class="card photos {% if not unlocked %}locked{% endif %}" id="cardPhotos">
+    <div class="card-lock-badge" id="badgePhotos">{% if unlocked %}🔓{% else %}🔒{% endif %}</div>
+    <div class="card-top">
+      <div class="card-icon">🖼️</div>
+      <div class="card-info">
+        <div class="card-title">PHOTOS</div>
+        <div class="card-sub">View · Download</div>
+      </div>
+    </div>
+    <a href="/photos" class="card-btn">OPEN →</a>
+  </div>
+
+  <div class="card videos {% if not unlocked %}locked{% endif %}" id="cardVideos">
+    <div class="card-lock-badge" id="badgeVideos">{% if unlocked %}🔓{% else %}🔒{% endif %}</div>
+    <div class="card-top">
+      <div class="card-icon">🎬</div>
+      <div class="card-info">
+        <div class="card-title">VIDEOS</div>
+        <div class="card-sub">Play · Download</div>
+      </div>
+    </div>
+    <a href="/videos" class="card-btn">OPEN →</a>
+  </div>
+
+  <div class="card send {% if not unlocked %}locked{% endif %}" id="cardSend">
+    <div class="card-lock-badge" id="badgeSend">{% if unlocked %}🔓{% else %}🔒{% endif %}</div>
+    <div class="card-top">
+      <div class="card-icon">📤</div>
+      <div class="card-info">
+        <div class="card-title">SEND</div>
+        <div class="card-sub">Pick device · Transfer</div>
+      </div>
+    </div>
+    <a href="/send" class="card-btn">OPEN →</a>
+  </div>
+</div>
+
+<div class="bottombar">
+  <span id="statusText">
+    {% if unlocked %}UNLOCKED · TAP 🔓 TO LOCK · WIREGUARD ACTIVE
+    {% else %}LOCKED · TAP 🔒 TO UNLOCK · WIREGUARD ACTIVE{% endif %}
+  </span>
+</div>
+
+<div class="pin-overlay {% if not unlocked %}active{% endif %}" id="pinOverlay">
+  <div class="pin-title">ENTER PIN TO UNLOCK</div>
+  <div class="pin-display" id="pinDisplay">_ _ _ _</div>
+  <div class="pin-error" id="pinError"></div>
+  <div class="numpad">
+    <button onclick="addPin('1')">1</button>
+    <button onclick="addPin('2')">2</button>
+    <button onclick="addPin('3')">3</button>
+    <button onclick="addPin('4')">4</button>
+    <button onclick="addPin('5')">5</button>
+    <button onclick="addPin('6')">6</button>
+    <button onclick="addPin('7')">7</button>
+    <button onclick="addPin('8')">8</button>
+    <button onclick="addPin('9')">9</button>
+    <button class="clear" onclick="clearPin()">✕</button>
+    <button onclick="addPin('0')">0</button>
+    <button class="enter" onclick="checkPin()">✓</button>
+  </div>
+</div>
+
+<script>
+  let pin = '';
+
+  function addPin(n) {
+    if (pin.length < 4) {
+      pin += n;
+      updateDisplay();
+      if (pin.length === 4) setTimeout(checkPin, 200);
+    }
+  }
+
+  function clearPin() {
+    pin = pin.slice(0, -1);
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    let d = '';
+    for (let i = 0; i < 4; i++) d += i < pin.length ? '● ' : '_ ';
+    document.getElementById('pinDisplay').textContent = d.trim();
+  }
+
+  function checkPin() {
+    fetch('/unlock', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'pin=' + pin
+    }).then(() => window.location.reload());
+  }
+</script>
+</body>
+</html>
