@@ -1,60 +1,47 @@
 # Personal Projects
 
-A collection of personal Python projects and coursework built alongside my B.S. in 
-Cybersecurity at the University of South Florida. Focus areas include networking 
-fundamentals, security tooling, self-hosted infrastructure, and applied information 
-security labs.
+Python projects and coursework from my B.S. in Cybersecurity at USF — networking basics, security tooling, a self-hosted server, and applied infosec labs.
 
 ## Projects
 
 ### networking-chat
-A basic client-server chat application built with Python sockets (TCP). Demonstrates 
-fundamental network programming concepts: socket creation, binding, listening, and 
-bidirectional message exchange between a server and client.
+Client-server chat app using Python sockets over TCP. Nothing fancy — just socket creation, binding, listening, and passing messages back and forth between server and client.
 
-**Tech:** Python, `socket` module
+**Tech:** Python, `socket`
 
 ### password-strength-checker
-A GUI password strength checker built with Tkinter. Validates passwords against a 
-configurable policy (length, uppercase/lowercase/special character requirements) and 
-flags passwords containing personal information (first/last name).
+Tkinter GUI that checks passwords against a configurable policy (length, case, special characters) and flags anything that includes your first or last name.
 
 **Tech:** Python, Tkinter
 
 ### personal-server
-A self-hosted home server running on a Raspberry Pi 4, built as both a personal 
-infrastructure project and a hands-on platform for testing security configurations. 
-Includes a Flask REST API backend and a custom touchscreen UI.
+Home server running on a Raspberry Pi 4 — built partly for the infrastructure itself, partly as a sandbox for testing security configs. Flask REST API on the backend, custom touchscreen UI, Tailscale for remote access without opening ports.
 
-**Tech:** Python, Flask, Raspberry Pi OS, Tailscale (secure remote access)
+**Tech:** Python, Flask, Raspberry Pi OS, Tailscale
 
 ### student-policy-papers
-Written coursework covering IT security policy development, procedure documentation, 
-and legislative/regulatory policy analysis, completed as part of my B.S. in 
-Cybersecurity coursework at USF.
+Coursework on IT security policy, procedure documentation, and legislative/regulatory analysis from my B.S. in Cybersecurity.
 
-**Includes:**
 - IT Security Policy — Procedure Paper 1
 - Procedure Paper 2
 - IT Policy & Ethics: In the News
 - Legislative Tracing and Policy Analysis
 
 ### usf-security-labs
-Applied information security labs from ISM4323 (Information Security), covering the 
-core domains of IT infrastructure security, from vulnerability assessment through 
-incident response.
+Labs from ISM4323 (Information Security) — vulnerability assessment through incident response. Starts at Lab 2 since Lab 1 was just an orientation assignment.
 
-**Includes:**
-- Lab 2: Performing a Vulnerability Assessment
+
+- Lab 2: Vulnerability Assessment
 - Lab 3: Packet Capture and Traffic Analysis
 - Lab 4: User Authentication and Access Controls
 - Lab 5: Encryption for Confidentiality and Integrity
-- Lab 6: Assessing Common Attack Vectors
+- Lab 6: Common Attack Vectors
 - Lab 7: Implementing an IT Security Policy
 - Lab 8: Security Monitoring and Logging
-- Lab 9: Backup and Recovery Functions
+- Lab 9: Backup and Recovery
 - Lab 10: Incident Response and Forensic Analysis
 - Lab 11: Ethical Hacking, Part 1
 
 ---
+
 *Author: Yamil Cortes Velez*
