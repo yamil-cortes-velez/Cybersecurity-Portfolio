@@ -1,0 +1,38 @@
+# GRC Portfolio
+
+Governance, risk, and compliance projects I've built to apply what I'm 
+learning through my B.S. in Cybersecurity (USF) and my work as an Internal 
+Compliance Auditor. Each project is based on a real company, a real 
+incident, or a real framework. The reasoning is to give my own personal take
+on each incident or organization and what I would personally recommend
+based on what I know. 
+
+Every project is always open to new suggestions that will help me grow as
+a professional.
+
+## Projects [Including those in progress]
+
+### [Vendor Risk Policy - EY Breach](./01-vendor-risk-policy-ey-breach)
+Third-party vendor risk management policy written in response to the 2026 
+Ernst & Young data breach. Built around NIST SP 800-161 and NIST SP 800-53, 
+with controls mapped directly to the actual incident timeline and root cause.
+
+### Risk Register - Lithia Motors *(in progress)*
+Enterprise risk register for a public automotive retailer, built from their 
+actual SEC 10-K risk disclosures using NIST IR 8286 methodology.
+
+### SOC 2 Gap Assessment - Okta *(in progress)*
+Control maturity assessment against the AICPA Trust Services Criteria, 
+using Okta's public Trust Center controls and their documented 2022/2023 
+security incidents to identify where stated controls didn't hold up in practice.
+
+## Background
+
+B.S. Cybersecurity, University of South Florida (Dec 2026) — Minor in 
+Professional & Technical Communications. CompTIA CSAP (Security+ & CySA+), 
+AWS Solutions Architect – Associate. Currently working as an Internal 
+Compliance Auditor.
+
+---
+
+**Author:** Yamil Cortes Velez
